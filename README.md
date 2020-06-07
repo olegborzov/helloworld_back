@@ -5,7 +5,7 @@
 Борзов Олег<br>
 http://olegborzov.ru/<br>
 
-##Команды для запуска и настройки приложения 
+## Команды для запуска и настройки приложения 
 Создать виртуальное окружение для Python:
 ```
 $ virtualenv venv                   # Создать виртуальное окружение
@@ -19,7 +19,7 @@ $ export FLASK_ENV=development      # Environment
 $ export FLASK_DEBUG=1              # Don't need usually
 ```
 
-##Docker
+## Docker
 Запуск контейнеров
 ```
 $ docker-compose -f docker-compose.db.yml up -d
@@ -29,7 +29,7 @@ $ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 
 
-##Flask
+## Flask
 Запуск Flask приложения
 ```
 $ flask run
