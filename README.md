@@ -12,24 +12,23 @@ $ virtualenv venv                   # Создать виртуальное ок
 $ source venv/bin/activate          # Войти в виртуальное окружение
 ```
 
-Установить переменные окружения
-```
-$ export FLASK_APP=run_server.py    #
-$ export FLASK_ENV=development      # Environment
-$ export FLASK_DEBUG=1              # Don't need usually
-```
-
 ##Docker
 Запуск контейнеров
 ```
-$ docker-compose -f docker-compose.db.yml up -d
-$ docker-compose -f docker-compose.workers.yml up -d
-$ docker-compose -f docker-compose.yml -f docker-compose.dev.yml up -d
-$ docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+$ docker-compose -f docker-compose.local.db.yml up -d           # Запуск локального контейнера с БД
+$ docker-compose -f docker-compose.local.workers.yml up -d      # Запуск локального окружения с воркерами
+$ docker-compose -f docker-compose.dev.yml up -d                # Запуск dev окружения на сервере
+$ docker-compose -f docker-compose.prod.yml up -d               # Запуск prod окружения на сервере
 ```
 
-
 ##Flask
+Установить переменные окружения
+```
+$ export FLASK_APP=run_server.py    # Установка файла для запуска сервера
+$ export FLASK_ENV=dev              # Установка окружения (local/test/dev/prod)
+$ export FLASK_DEBUG=1              # Debug-режим
+```
+
 Запуск Flask приложения
 ```
 $ flask run
