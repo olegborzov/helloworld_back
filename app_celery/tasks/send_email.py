@@ -1,7 +1,7 @@
 from celery import Task
 
 from config import Config
-from core.utils import email
+from app_celery.utils import email
 
 
 class SendMailTask(Task):
