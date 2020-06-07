@@ -12,7 +12,7 @@ $ virtualenv venv                   # Создать виртуальное ок
 $ source venv/bin/activate          # Войти в виртуальное окружение
 ```
 
-##Docker
+## Docker
 Запуск контейнеров
 ```
 $ docker-compose -f docker-compose.local.db.yml up -d           # Запуск локального контейнера с БД
