@@ -4,9 +4,9 @@
 *.DS_Store
 pgdata/
 test_data/*.json
-conf/.env_files
-!conf/.env_files/local
-!conf/.env_files/test
+/conf/.env_files/
+!/conf/.env_files/local
+!/conf/.env_files/test
 
 # Archives
 *.tar

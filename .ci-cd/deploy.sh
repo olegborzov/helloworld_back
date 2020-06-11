@@ -35,7 +35,7 @@ fi
 
 
 # 4. Запуск миграций
-docker run --env-file "conf/.env_files/${HW_ENV}.env" "hw_back_${HW_ENV}:new" sh -c "flask db upgrade" 2>> dockerlog.txt
+docker run --rm --env-file "conf/.env_files/${HW_ENV}.env" "hw_back_${HW_ENV}:new" sh -c "flask db upgrade" 2>> dockerlog.txt
 migration_result=$?
 printf "\nMIGRATION result %s\n" "$migration_result"
 
@@ -49,7 +49,7 @@ fi
 # 5. Деплой
 docker tag "hw_back_${HW_ENV}:latest" "hw_back_${HW_ENV}:previous"
 docker tag "hw_back_${HW_ENV}:new" "hw_back_${HW_ENV}:latest"
-docker-compose up -d --remove-orphans
+docker-compose -p "hw_back_${HW_ENV}" up -d  --remove-orphans
 
 sh ./.ci-cd/curl_tg.sh "#deploy_success"
 
