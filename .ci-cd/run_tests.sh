@@ -1,4 +1,4 @@
-docker-compose -f docker-compose.test.yml run --rm test_web 2>> dockerlog.txt
+docker-compose -f docker-compose.test.yml run --rm test_web
 tests_result=$?
 docker-compose -f docker-compose.test.yml down --remove-orphans
 if [ $tests_result != 0 ]; then

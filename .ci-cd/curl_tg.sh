@@ -1,5 +1,4 @@
 msg_text="helloworld #back #${HW_ENV} - $1"
-echo "$msg_text" >> dockerlog.txt
 
 curl -L -X POST "https://api.telegram.org/${HW_TG_BOT_TOKEN}/sendMessage?chat_id=${HW_TG_CHAT_ID}" \
   -H "Content-Type: application/json" --data-raw "{\"text\": \"${msg_text}\"}"

@@ -2,15 +2,15 @@
 # nohup ./ci-cd/deploy.sh dev "123456:ABCDEsaw" "-1001018" &
 
 # 1. Устанавливаем из входных параметров переменные окружения
-export HW_ENV=$1
-export HW_TG_BOT_TOKEN=$2
-export HW_TG_CHAT_ID=$3
-printf "\n\n### %s - start_deploy###\n" "$(date)" >> dockerlog.txt
+export HW_ENV=$1            # Окружение (dev/prod)
+export HW_TG_BOT_TOKEN=$2   # Токен бота Telegram (пример - bot110201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw)
+export HW_TG_CHAT_ID=$3     # ID чата/канала в Telegram, куда бот будет отправлять сообщения (пример -1001234567890)
+printf "\n\n### %s - start_deploy###\n" "$(date)"
 
 
 # 2. Запускаем билд
 sh ./.ci-cd/curl_tg.sh "#start_build"
-docker build -f ./conf/docker/Dockerfile -t "hw_back_${HW_ENV}:new" . 2>> dockerlog.txt
+docker build -f ./conf/docker/Dockerfile -t "hw_back_${HW_ENV}:new" .
 build_result=$?
 printf "\nBUILD result %s\n" "$build_result"
 
@@ -35,7 +35,7 @@ fi
 
 
 # 4. Запуск миграций
-docker run --rm --env-file "conf/.env_files/${HW_ENV}.env" "hw_back_${HW_ENV}:new" sh -c "flask db upgrade" 2>> dockerlog.txt
+docker run --rm --env-file "conf/.env_files/${HW_ENV}.env" "hw_back_${HW_ENV}:new" sh -c "flask db upgrade"
 migration_result=$?
 printf "\nMIGRATION result %s\n" "$migration_result"
 
