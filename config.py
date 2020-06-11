@@ -31,7 +31,7 @@ class Config:
     POSTGRES_DB = env.str("POSTGRES_DB", default="helloworld_db")
 
     SQLALCHEMY_DATABASE_URI = "{schema}://{login}:{password}@{host}:{port}/{db_name}".format(
-        schema="postgresql",
+        schema="postgresql+psycopg2",
         login=POSTGRES_USER,
         password=POSTGRES_PASSWORD,
         host=POSTGRES_DB_HOST,

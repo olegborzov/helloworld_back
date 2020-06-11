@@ -2,7 +2,6 @@
 *.db
 */.htaccess
 *.DS_Store
-Dockerfile
 pgdata/
 test_data/*.json
 conf/.env/
