@@ -22,6 +22,7 @@ login_manager = LoginManager()
 ma = Marshmallow()
 cors = CORS(resources={r"/api/*": {"origins": "*"}}, supports_credentials=True)
 
+
 envs_dict = {
     "local": "local",
     "development": "dev",
@@ -31,6 +32,15 @@ envs_dict = {
     "test": "test",
     "testing": "test"
 }
+
+
+def create_registry(env: str, env_type: str) -> "Registry":
+    env = envs_dict.get(env, 'dev')
+
+    if "web" in env_type:
+        return WebRegistry(env)
+    else:
+        return Registry(env)
 
 
 class Registry(metaclass=SingletonMeta):
@@ -43,17 +53,17 @@ class Registry(metaclass=SingletonMeta):
     manager: manager.DefaultManager
 
     def __init__(self, env: str):
-        self._set_config(env)
+        self.set_config(env)
 
         # Create apps
         self.set_flask_app()
         self.set_db()
-        self._set_migrate_app()
-        self._set_celery_app()
+        self.set_migrate_app()
+        self.set_celery_app()
 
         # Create and init managers
-        self._set_manager()
-        self._init_manager()
+        self.set_manager()
+        self.init_manager()
 
     def set_flask_app(self):
         import config as conf
@@ -66,7 +76,7 @@ class Registry(metaclass=SingletonMeta):
         self.app.config.from_object(self.config)
         self.app.app_context().push()
 
-    def _set_celery_app(self):
+    def set_celery_app(self):
         self.celery = celery
         self.celery.main = self.app.import_name
         self.celery.conf.update(self.app.config['CELERY_CONFIG'])
@@ -91,18 +101,18 @@ class Registry(metaclass=SingletonMeta):
         self.db = db
         self.db.init_app(self.app)
 
-    def _set_migrate_app(self):
+    def set_migrate_app(self):
         self.migrate = Migrate(self.app, self.db)
 
-    def _set_manager(self):
+    def set_manager(self):
         self.manager = self.__annotations__['manager']()
         self.manager.marshmallow = ma
 
-    def _init_manager(self):
+    def init_manager(self):
         for name, mngr in self.manager.as_dict().items():
             mngr.init_app(self.app)
 
-    def _set_config(self, env: str):
+    def set_config(self, env: str):
         os.environ['ENV'] = env
 
         import config as conf
@@ -115,33 +125,18 @@ class WebRegistry(Registry):
     def __init__(self, env: str):
         super().__init__(env)
 
-    def _set_manager(self):
-        super()._set_manager()
+    def set_manager(self):
+        super().set_manager()
         self.manager.login = login_manager
         self.manager.cors = cors
 
-    def _init_manager(self):
-        super()._init_manager()
-        self._register_blueprints()
+    def init_manager(self):
+        super().init_manager()
+        self.register_blueprints()
 
-    def _register_blueprints(self):
+    def register_blueprints(self):
         from app_web.blueprints import all_blueprints
 
         for bp in all_blueprints:
             self.app.register_blueprint(bp)
-
-
-class CeleryRegistry(Registry):
-    pass
-
-
-def create_registry(env: str, env_type: str) -> Registry:
-    env = envs_dict.get(env, 'dev')
-
-    if "web" in env_type:
-        return WebRegistry(env)
-    elif "celery" in env_type:
-        return CeleryRegistry(env)
-    else:
-        return WebRegistry(env)
 

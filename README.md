@@ -36,15 +36,20 @@ http://olegborzov.ru/<br>
 ```
 $ virtualenv venv                   # Создать виртуальное окружение
 $ source venv/bin/activate          # Войти в виртуальное окружение
-```****
+```
+
+Команды CI/CD
+```
+$ sh .ci-cd/deploy.sh ENV TG_BOT_TOKEN TG_CHAT_ID       # Запуск деплоя с новой версией
+$ sh .ci-cd/rollback.sh ENV TG_BOT_TOKEN TG_CHAT_ID     # Откат деплоя на предыдущую версию
+```
 
 ## Docker
 Запуск контейнеров
 ```
 $ docker-compose -f docker-compose.local.db.yml up -d           # Запуск локального контейнера с БД
 $ docker-compose -f docker-compose.local.workers.yml up -d      # Запуск локального окружения с воркерами
-$ docker-compose -f docker-compose.dev.yml up -d                # Запуск dev окружения на сервере
-$ docker-compose -f docker-compose.prod.yml up -d               # Запуск prod окружения на сервере
+$ docker-compose -f docker-compose.test.yml run test_web        # Запуск тестов
 ```
 
 ## Flask
