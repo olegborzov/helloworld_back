@@ -26,10 +26,19 @@ jobs:
         username: ${{ secrets.DOCKER_LOGIN }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         tags: new
-        
+    
+    - name: Docker Login
+      uses: Azure/docker-login@v1
+      with:
+        login-server: https://${{ secrets.DOCKER_REGISTRY }}/v2/
+        username: ${{ secrets.DOCKER_LOGIN }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+    
     # Запускаем тесты
     - name: Run tests
       run: |
+        export HW_ENV={{ github.ref }}
+        export DOCKER_REGISTRY=${{ secrets.DOCKER_REGISTRY }}
         docker-compose -f docker-compose.test.yml run --rm test_web
         docker-compose -f docker-compose.test.yml down --remove-orphans
 
