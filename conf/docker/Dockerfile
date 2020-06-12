@@ -1,4 +1,4 @@
-FROM docker.pkg.github.com/olegborzov/helloworld_back/hw_back_base:latest
+FROM olegborzov/hw_back_base:latest
 
 # Copy all necessary files
 COPY . /app/
