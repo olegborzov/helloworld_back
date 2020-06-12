@@ -1,0 +1,40 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ master, dev ]
+  pull_request:
+    branches: [ master, dev ]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "deploy"
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Спуливаем содержимое
+    - uses: actions/checkout@v2
+
+    # Собираем контейнер
+    - name: Build and push image
+      uses: docker/build-push-action@v1.1.0
+      with:
+        repository: hw_back_${{ github.ref }}
+        dockerfile: ./conf/docker/Dockerfile
+        registry: ${{ secrets.DOCKER_REGISTRY }}
+        username: ${{ secrets.DOCKER_LOGIN }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        tags: new
+        
+    # Запускаем тесты
+    - name: Run tests
+      run: |
+        docker-compose -f docker-compose.test.yml run --rm test_web
+        docker-compose -f docker-compose.test.yml down --remove-orphans
+
+    # Деплой
+    - name: Deploy
+      uses: wei/curl@v1.1.1
+      with:
+        args: ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_TOKEN }}
