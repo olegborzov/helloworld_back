@@ -1,8 +1,12 @@
 from flask import Blueprint
 
 from app_web.handlers import auth as api_auth
+from app_web.handlers import ping as api_ping
 from app_web.handlers import tasks as api_tasks
 
+# Base
+base_app = Blueprint("api_auth", __name__, url_prefix='')
+base_app.add_url_rule("/ping", 'ping', api_ping.ping, methods=['GET'])
 
 # API Auth
 api_auth_app = Blueprint("api_auth", __name__, url_prefix='/api/auth')
