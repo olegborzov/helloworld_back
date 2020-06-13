@@ -43,7 +43,14 @@ jobs:
         docker-compose -f docker-compose.test.yml down --remove-orphans
 
     # Деплой
-    - name: Deploy
+    - name: Deploy prod
+      if: github.ref == 'refs/heads/master'
       uses: wei/curl@v1.1.1
       with:
-        args: ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_TOKEN }}
+        args: ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_PROD_TOKEN }}
+        
+    - name: Deploy dev
+      if: github.ref == 'refs/heads/dev'
+      uses: wei/curl@v1.1.1
+      with:
+        args: ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_DEV_TOKEN }}
