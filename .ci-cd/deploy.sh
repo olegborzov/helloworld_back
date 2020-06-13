@@ -1,5 +1,5 @@
 # Пример вызова скрипта
-# nohup bash .ci-cd/deploy.sh \
+# .ci-cd/deploy.sh \
 #   dev \
 #   docker.helloworld.com \
 #   docker_user \

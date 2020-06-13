@@ -5,8 +5,8 @@ from app_web.handlers import ping as api_ping
 from app_web.handlers import tasks as api_tasks
 
 # Base
-base_app = Blueprint("base", __name__, url_prefix='')
-base_app.add_url_rule("/ping", 'ping', api_ping.ping, methods=['GET'])
+api_base_app = Blueprint("api_base", __name__, url_prefix='/api/')
+api_base_app.add_url_rule("/ping", 'ping', api_ping.ping, methods=['GET'])
 
 # API Auth
 api_auth_app = Blueprint("api_auth", __name__, url_prefix='/api/auth')
@@ -24,6 +24,6 @@ api_task_app.add_url_rule("/send_mail", 'send_mail', api_tasks.send_email, metho
 # Here we declare all blueprints
 ##########################################################
 
-all_blueprints = (base_app, api_auth_app, api_task_app)
+all_blueprints = (api_base_app, api_auth_app, api_task_app)
 
 ##########################################################

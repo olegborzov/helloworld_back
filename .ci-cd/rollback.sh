@@ -1,5 +1,5 @@
 # Пример вызова скрипта
-# nohup bash .ci-cd/rollback.sh \
+# .ci-cd/rollback.sh \
 #   dev \
 #   docker.helloworld.com \
 #   docker_user \
