@@ -15,12 +15,19 @@ jobs:
     steps:
     # Спуливаем содержимое
     - uses: actions/checkout@v2
+    
+    # Устанавливаем 
+    - name: Extract branch name
+      shell: bash
+      run: |
+        echo "::set-env name=BRANCH_NAME::${GITHUB_REF##*/}"
+        echo "${BRANCH_NAME}"
 
     # Собираем контейнер
     - name: Build and push image
       uses: docker/build-push-action@v1.1.0
       with:
-        repository: hw_back_${{ github.ref }}
+        repository: hw_back_${{ BRANCH_NAME }}
         dockerfile: ./conf/docker/Dockerfile
         registry: ${{ secrets.DOCKER_REGISTRY }}
         username: ${{ secrets.DOCKER_LOGIN }}
@@ -44,13 +51,13 @@ jobs:
 
     # Деплой
     - name: Deploy prod
-      if: github.ref == 'refs/heads/master'
+      if: ${ BRANCH_NAME } == 'master'
       uses: wei/curl@v1.1.1
       with:
         args: ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_PROD_TOKEN }}
         
     - name: Deploy dev
-      if: github.ref == 'refs/heads/dev'
+      if: ${ BRANCH_NAME } == 'dev'
       uses: wei/curl@v1.1.1
       with:
         args: ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_DEV_TOKEN }}
