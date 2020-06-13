@@ -51,13 +51,13 @@ jobs:
 
     # Деплой
     - name: Deploy prod
-      if: ${BRANCH_NAME} == 'master'
+      if: env.BRANCH_NAME == 'master'
       uses: wei/curl@v1.1.1
       with:
         args: -X POST ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_PROD_TOKEN }}
         
     - name: Deploy dev
-      if: ${BRANCH_NAME} == 'dev'
+      if: env.BRANCH_NAME == 'dev'
       uses: wei/curl@v1.1.1
       with:
         args: -X POST ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_DEV_TOKEN }}
