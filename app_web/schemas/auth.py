@@ -6,7 +6,7 @@ from marshmallow.validate import Length
 class UserSchema(Schema):
     class Meta:
         # Fields to expose
-        fields = ("id", "email", "is_admin", "is_guest")
+        fields = ("id", "email", "name", "is_admin", "is_guest")
 
 
 class LoginSchema(Schema):

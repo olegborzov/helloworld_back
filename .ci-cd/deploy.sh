@@ -19,10 +19,26 @@ HW_TG_BOT_TOKEN=$5            # Токен для бота Telegram
 HW_TG_CHAT_ID=$6              # ID чата/канала в Telegram для отправки уведомлений
 
 
-# 2. Деплой
-sh ./.ci-cd/curl_tg.sh "$HW_TG_BOT_TOKEN" "$HW_TG_CHAT_ID" "$HW_ENV" "#deploy_start"
-
+# 2. Авторизация в репозитории Docker
 /usr/bin/docker login "${HW_DOCKER_REGISTRY}" -u "$HW_DOCKER_LOGIN" -p "${HW_DOCKER_PASSWORD}"
+
+
+# 3. Запуск миграций
+sh ./.ci-cd/curl_tg.sh "$HW_TG_BOT_TOKEN" "$HW_TG_CHAT_ID" "$HW_ENV" "#migration_start"
+/usr/bin/docker run --rm \
+  --env-file "conf/.env_files/${HW_ENV}.env" \
+  "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:new" \
+  sh -c "flask db upgrade"
+migration_result=$?
+
+if [ $migration_result != 0 ]; then
+  sh ./.ci-cd/curl_tg.sh "#migration_failed"
+  exit 1
+fi
+
+
+# 4. Деплой
+sh ./.ci-cd/curl_tg.sh "$HW_TG_BOT_TOKEN" "$HW_TG_CHAT_ID" "$HW_ENV" "#deploy_start"
 
 /usr/bin/docker pull "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:new"
 /usr/bin/docker pull "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:latest"

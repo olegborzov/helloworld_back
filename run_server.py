@@ -4,7 +4,7 @@ import os
 from core.registry import create_registry
 
 env = os.getenv("FLASK_ENV", 'local')  # local, test, development or production
-env_type = os.getenv("FLASK_ENV_TYPE", 'local')  # web or celery
+env_type = os.getenv("FLASK_ENV_TYPE", 'web')  # web or celery
 
 reg = create_registry(env=env, env_type=env_type)
 app = reg.app

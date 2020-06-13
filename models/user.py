@@ -20,6 +20,7 @@ class User(BaseModel, TimestampMixin, UserMixin, BulkMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True, nullable=False)
+    name = db.Column(db.String(150), nullable=True)
     password_hash = db.Column(db.String(128))
     is_admin = db.Column(db.Boolean, nullable=False, default=False, server_default="f")
     active = db.Column(db.Boolean, nullable=False, default=True, server_default="t")
@@ -29,8 +30,8 @@ class User(BaseModel, TimestampMixin, UserMixin, BulkMixin):
         return db.session.query(cls).filter_by(email=email).first()
 
     @classmethod
-    def create(cls, email: str, password: str) -> "User":
-        new_user = cls(email=email)
+    def create(cls, email: str, name: str, password: str) -> "User":
+        new_user = cls(email=email, name=name)
         new_user.password = password
         db.session.add(new_user)
         db.session.commit()

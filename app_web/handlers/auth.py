@@ -46,7 +46,7 @@ def register():
     if user:
         return bad_request("Пользователь с данным email уже существует")
 
-    user = User.create(email=data['email'], password=data['password'])
+    user = User.create(email=data['email'], name=data.get('name'), password=data['password'])
     login_user(user, remember=True)
     return success(UserSchema().dump(user))
 
