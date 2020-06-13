@@ -27,7 +27,7 @@ jobs:
     - name: Build and push image
       uses: docker/build-push-action@v1.1.0
       with:
-        repository: hw_back_${{ BRANCH_NAME }}
+        repository: hw_back_${BRANCH_NAME}
         dockerfile: ./conf/docker/Dockerfile
         registry: ${{ secrets.DOCKER_REGISTRY }}
         username: ${{ secrets.DOCKER_LOGIN }}
@@ -51,13 +51,13 @@ jobs:
 
     # Деплой
     - name: Deploy prod
-      if: ${ BRANCH_NAME } == 'master'
+      if: ${BRANCH_NAME} == 'master'
       uses: wei/curl@v1.1.1
       with:
-        args: ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_PROD_TOKEN }}
+        args: -X POST ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_PROD_TOKEN }}
         
     - name: Deploy dev
-      if: ${ BRANCH_NAME } == 'dev'
+      if: ${BRANCH_NAME} == 'dev'
       uses: wei/curl@v1.1.1
       with:
-        args: ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_DEV_TOKEN }}
+        args: -X POST ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_DEV_TOKEN }}
