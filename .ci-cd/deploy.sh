@@ -3,10 +3,10 @@
 
 # 1. Устанавливаем из входных параметров переменные окружения
 export HW_ENV=$1
-HW_BRANCH=$([ "${HW_ENV?}" "==" "dev" ] && echo master || echo dev)
-export HW_DOCKER_REGISTRY=$4  # Хост репозитория Docker
-HW_TG_BOT_TOKEN=$2
-HW_TG_CHAT_ID=$3
+HW_BRANCH=$([ "${HW_ENV?}" "==" "prod" ] && echo master || echo dev)
+export HW_DOCKER_REGISTRY=$2  # Хост репозитория Docker
+HW_TG_BOT_TOKEN=$3
+HW_TG_CHAT_ID=$4
 
 # 2. Деплой
 sh ./.ci-cd/curl_tg.sh "$HW_TG_BOT_TOKEN" "$HW_TG_CHAT_ID" "$HW_ENV" "#deploy_start"

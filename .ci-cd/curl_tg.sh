@@ -1,5 +1,5 @@
 # Пример вызова скрипта
-# ./ci-cd/curl_tg.sh dev "110201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw" "-1001234567890" "test"
+# ./ci-cd/curl_tg.sh "110201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw" "-1001234567890" dev "test"
 
 HW_TG_BOT_TOKEN=$1     # Токен бота Telegram (пример - 110201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw)
 HW_TG_CHAT_ID=$2       # ID чата/канала в Telegram, куда бот будет отправлять сообщения (пример -1001234567890)
