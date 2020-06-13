@@ -1,8 +1,10 @@
+# Пример вызова скрипта
+# nohup ./ci-cd/rollback.sh dev "123456:ABCDEsaw" "-1001018" &
+
 # 1. Устанавливаем из входных параметров переменные окружения
 export HW_ENV=$1
 export HW_TG_BOT_TOKEN=$2
 export HW_TG_CHAT_ID=$3
-printf "\n\n### %s - start_rollback###\n" "$(date)"
 
 # 2. Откат деплоя на предыдущую версию
 sh ./.ci-cd/curl_tg.sh "#start_rollback"
