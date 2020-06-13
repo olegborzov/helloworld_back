@@ -11,6 +11,7 @@
 # 1. Устанавливаем из входных параметров переменные окружения
 export HW_ENV=$1
 HW_BRANCH=$([ "${HW_ENV?}" == 'prod' ] && echo master || echo dev)
+export HW_BRANCH
 export HW_DOCKER_REGISTRY=$2  # Хост репозитория Docker
 HW_DOCKER_LOGIN=$3            # Логин для репозитория Docker
 HW_DOCKER_PASSWORD=$4         # Пароль для репозитория Docker
