@@ -20,8 +20,16 @@ HW_TG_CHAT_ID=$6              # Чат для
 sh ./.ci-cd/curl_tg.sh "$HW_TG_BOT_TOKEN" "$HW_TG_CHAT_ID" "$HW_ENV" "#deploy_start"
 
 /usr/bin/docker login "${HW_DOCKER_REGISTRY}" -u "$HW_DOCKER_LOGIN" -p "${HW_DOCKER_PASSWORD}"
+
+/usr/bin/docker pull "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:new"
+/usr/bin/docker pull "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:latest"
+
 /usr/bin/docker tag "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:latest" "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:previous"
 /usr/bin/docker tag "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:new" "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:latest"
+
+/usr/bin/docker push "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:previous"
+/usr/bin/docker push "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:latest"
+
 /usr/local/bin/docker-compose -p "hw_back_${HW_ENV}" up -d  --remove-orphans
 
 sh ./.ci-cd/curl_tg.sh "$HW_TG_BOT_TOKEN" "$HW_TG_CHAT_ID" "$HW_ENV" "#deploy_success"

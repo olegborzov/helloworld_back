@@ -20,9 +20,17 @@ HW_TG_CHAT_ID=$6              # Чат для
 sh ./.ci-cd/curl_tg.sh "$HW_TG_BOT_TOKEN" "$HW_TG_CHAT_ID" "$HW_ENV" "#start_rollback"
 
 /usr/bin/docker login "${HW_DOCKER_REGISTRY}" -u "$HW_DOCKER_LOGIN" -p "${HW_DOCKER_PASSWORD}"
+
+/usr/bin/docker pull "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:latest"
+/usr/bin/docker pull "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:previous"
+
 /usr/bin/docker tag "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:latest" "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:temp"
 /usr/bin/docker tag "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:previous" "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:latest"
 /usr/bin/docker tag "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:temp" "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:previous"
+
+/usr/bin/docker push "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:latest"
+/usr/bin/docker push "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:previous"
+
 /usr/local/bin/docker-compose up -d
 
 sh ./.ci-cd/curl_tg.sh "$HW_TG_BOT_TOKEN" "$HW_TG_CHAT_ID" "$HW_ENV" "#end_rollback"
