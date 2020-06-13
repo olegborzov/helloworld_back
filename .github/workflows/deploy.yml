@@ -15,12 +15,19 @@ jobs:
     steps:
     # Спуливаем содержимое
     - uses: actions/checkout@v2
+    
+    # Устанавливаем 
+    - name: Extract branch name
+      shell: bash
+      run: |
+        echo "::set-env name=BRANCH_NAME::${GITHUB_REF##*/}"
+        echo "${{ env.BRANCH_NAME }}"
 
     # Собираем контейнер
     - name: Build and push image
       uses: docker/build-push-action@v1.1.0
       with:
-        repository: hw_back_${{ github.ref }}
+        repository: hw_back_${{ env.BRANCH_NAME }}
         dockerfile: ./conf/docker/Dockerfile
         registry: ${{ secrets.DOCKER_REGISTRY }}
         username: ${{ secrets.DOCKER_LOGIN }}
@@ -37,20 +44,20 @@ jobs:
     # Запускаем тесты
     - name: Run tests
       run: |
-        export HW_ENV=${{ github.ref }}
+        export HW_ENV=${{ env.BRANCH_NAME }}
         export DOCKER_REGISTRY=${{ secrets.DOCKER_REGISTRY }}
         docker-compose -f docker-compose.test.yml run --rm test_web
         docker-compose -f docker-compose.test.yml down --remove-orphans
 
     # Деплой
     - name: Deploy prod
-      if: github.ref == 'refs/heads/master'
+      if: env.BRANCH_NAME == 'master'
       uses: wei/curl@v1.1.1
       with:
-        args: ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_PROD_TOKEN }}
+        args: -X POST ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_PROD_TOKEN }}
         
     - name: Deploy dev
-      if: github.ref == 'refs/heads/dev'
+      if: env.BRANCH_NAME == 'dev'
       uses: wei/curl@v1.1.1
       with:
-        args: ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_DEV_TOKEN }}
+        args: -X POST ${{ secrets.DEPLOY_HOST }}/modules/git/public/web-hook.php?uuid=${{ secrets.DEPLOY_BACK_DEV_TOKEN }}
