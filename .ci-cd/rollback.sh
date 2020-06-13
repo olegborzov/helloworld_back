@@ -1,5 +1,5 @@
 # Пример вызова скрипта
-# nohup ./ci-cd/rollback.sh dev "123456:ABCDEsaw" "-1001018" "docker.helloworld.com" &
+# nohup ./ci-cd/rollback.sh dev "110201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw" "-1001234567890" "docker.helloworld.com"
 
 # 1. Устанавливаем из входных параметров переменные окружения
 export HW_ENV=$1
