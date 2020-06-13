@@ -1,5 +1,5 @@
 # Пример вызова скрипта
-# nohup ./ci-cd/deploy.sh dev docker.helloworld.com "110201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw" "-1001234567890"
+# nohup sh .ci-cd/deploy.sh dev docker.helloworld.com "110201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw" "-1001234567890"
 
 # 1. Устанавливаем из входных параметров переменные окружения
 export HW_ENV=$1
