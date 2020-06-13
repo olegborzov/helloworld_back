@@ -14,7 +14,7 @@ export HW_DOCKER_REGISTRY=$2  # Хост репозитория Docker
 HW_DOCKER_LOGIN=$3            # Логин для репозитория Docker
 HW_DOCKER_PASSWORD=$4         # Пароль для репозитория Docker
 HW_TG_BOT_TOKEN=$5            # Токен для бота Telegram
-HW_TG_CHAT_ID=$6              # Чат для
+HW_TG_CHAT_ID=$6              # ID чата/канала в Telegram для отправки уведомлений
 
 # 2. Откат деплоя на предыдущую версию
 sh ./.ci-cd/curl_tg.sh "$HW_TG_BOT_TOKEN" "$HW_TG_CHAT_ID" "$HW_ENV" "#start_rollback"
