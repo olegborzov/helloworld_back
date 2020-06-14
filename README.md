@@ -44,8 +44,15 @@ $ source venv/bin/activate          # Войти в виртуальное ок�
 
 Команды CI/CD
 ```
-$ sh .ci-cd/deploy.sh ENV TG_BOT_TOKEN TG_CHAT_ID       # Запуск деплоя с новой версией
-$ sh .ci-cd/rollback.sh ENV TG_BOT_TOKEN TG_CHAT_ID     # Откат деплоя на предыдущую версию
+# Запуск деплоя с новой версией
+$ sh .ci-cd/deploy.sh ENV \
+    DOCKER_REGISTRY_HOST DOCKER_REGISTRY_LOGIN DOCKER_REGISTRY_PASSWORD \ 
+    TG_BOT_TOKEN TG_CHAT_ID
+
+# Откат деплоя на предыдущую версию
+$ sh .ci-cd/rollback.sh ENV \
+    DOCKER_REGISTRY_HOST DOCKER_REGISTRY_LOGIN DOCKER_REGISTRY_PASSWORD \ 
+    TG_BOT_TOKEN TG_CHAT_ID
 ```
 
 ## Docker
