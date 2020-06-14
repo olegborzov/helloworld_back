@@ -50,6 +50,11 @@ sh ./.ci-cd/curl_tg.sh "$HW_TG_BOT_TOKEN" "$HW_TG_CHAT_ID" "$HW_ENV" "#deploy_st
 /usr/bin/docker push "${HW_DOCKER_REGISTRY}/hw_back_${HW_BRANCH}:latest"
 
 /usr/local/bin/docker-compose -p "hw_back_${HW_ENV}" up -d  --remove-orphans
+deploy_result=$?
+if [ $deploy_result != 0 ]; then
+  sh ./.ci-cd/curl_tg.sh "#deploy_failed"
+  exit 1
+fi
 
 sh ./.ci-cd/curl_tg.sh "$HW_TG_BOT_TOKEN" "$HW_TG_CHAT_ID" "$HW_ENV" "#deploy_success"
 
