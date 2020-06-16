@@ -81,7 +81,7 @@ class Config:
     )
 
     # EMAIL Reports Credentials
-    SMTP_LOGIN = env.str("SMTP_LOGIN", default=")
+    SMTP_LOGIN = env.str("SMTP_LOGIN", default="")
     SMTP_PASS = env.str("SMTP_PASS", default="")
     SMTP_SERVER = env.str("SMTP_SERVER", default="smtp.gmail.com")
     SMTP_PORT = env.int("SMTP_PORT", default=587)
