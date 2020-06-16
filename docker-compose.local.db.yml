@@ -1,1 +1,18 @@
-# Контейнер с БД для локальной разработки# Перед первым запуском нужно создать локально#   папку ~/pgdata_helloworld - чтобы данные не терялись между перезапускамиversion: '3'services:  hw_pg_local:    image: postgres:12    command:      postgres -c config_file=/etc/postgresql.conf    ports:      - 53983:5432    env_file:      - conf/.env_files/local.docker.env    volumes:      - ./conf/postgresql.conf:/etc/postgresql.conf      - ~/pgdata_helloworld:/var/utils/postgresql/data
+version: '3'
+
+# Контейнер с БД для локальной разработки
+# Перед первым запуском нужно создать локально
+#   папку ~/pgdata_helloworld - чтобы данные не терялись между перезапусками
+
+services:
+  hw_pg_local:
+    image: postgres:12
+    command:
+      postgres -c config_file=/etc/postgresql.conf
+    ports:
+      - 53983:5432
+    env_file:
+      - conf/.env_files/local.docker.env
+    volumes:
+      - ./conf/postgresql.conf:/etc/postgresql.conf
+      - ~/pgdata_helloworld:/var/utils/postgresql/data
