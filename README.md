@@ -53,6 +53,11 @@ $ sh .ci-cd/deploy.sh ENV \
 $ sh .ci-cd/rollback.sh ENV \
     DOCKER_REGISTRY_HOST DOCKER_REGISTRY_LOGIN DOCKER_REGISTRY_PASSWORD \ 
     TG_BOT_TOKEN TG_CHAT_ID
+
+# Пример команды
+$ sh .ci-cd/deploy.sh dev \
+    docker.helloworld.com docker_user docker_password \
+    "110201543:AAHdqTcvCH1vGWJxfSeofSAs0K5PALDsaw" "-1001234567890"
 ```
 
 ## Docker
