@@ -4,7 +4,7 @@
 
 ### Автор
 Борзов Олег<br>
-https://olegborzov.ru/<br>
+http://olegborzov.ru/<br>
 
 ## Структура проекта
 **Папки**
