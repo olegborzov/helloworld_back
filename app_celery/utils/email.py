@@ -29,12 +29,12 @@ def send_mail(subject: str, message: str, recipients: List[str],
 
         for img_name, img in images.items():
             msg_img = MIMEImage(img, 'png')
-            msg_img.add_header('Content-ID', "<%s>" % img_name)
+            msg_img.add_header('Content-ID', f"<{img_name}>")
             msg_img.add_header(
-                'Content-Disposition', 'inline', filename=f"img_name.png"
+                'Content-Disposition', 'inline', filename=f"{img_name}.png"
             )
             msg_img.add_header(
-                'Content-Disposition', 'attachment', filename=f"img_name.png"
+                'Content-Disposition', 'attachment', filename=f"{img_name}.png"
             )
             msg.attach(msg_img)
     else:
