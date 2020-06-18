@@ -1,9 +1,10 @@
 # HelloWorld backend
-Простое приложение на Flask с возможностью регистрации, авторизации и отправки Email через Celery
+Простое приложение на Flask с возможностью регистрации, авторизации и отправки Email через Celery<br>
+Статья на Habr - https://habr.com/ru/company/domclick/blog/506802/
 
 ### Автор
 Борзов Олег<br>
-http://olegborzov.ru/<br>
+https://olegborzov.ru/<br>
 
 ## Структура проекта
 **Папки**
